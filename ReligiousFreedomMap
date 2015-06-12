@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>States that have "Religious Freedom" legislation</title>
+<meta charset="utf-8">
+<style>
+#IN, #ri, #fl, #ky, #pa, #ct, #va, #sc, 
+    #tn, #al, #ms, #mo, #ok, #nm, #az, #id, #mi, #ks, #tx, #la, #il {
+    fill: green;
+}
+</style>
+</head>
+<body>
+<script src="d3/d3.v3.js"></script>
+<h2> These are states that have similar laws to Indiana's "Religious Freedom" bill</h2>
+<script type="text/javascript">
+    d3.xml("usmap.svg", "image/svg+xml", function(xml) {
+      document.body.appendChild(xml.documentElement);
+    });
+</script>
+</body>
+</html>
