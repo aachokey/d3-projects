@@ -1,3 +1,3 @@
-# d3-projects
+# Graphics clips
 
-Some examples of D3 and stuff.
+Some examples of D3, charts and maps.
