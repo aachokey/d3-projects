@@ -6,6 +6,11 @@
 		<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<script src="http://blog.apps.npr.org/pym.js/dist/pym.min.js" type="text/javascript"></script>
+		<script src="d3.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <style>
 
 .q0-10 { fill:rgb(247,251,255); }
@@ -90,28 +95,34 @@ td p {
 	font-family: "Merriweather", sans-serif;
 	font-size: 1em;
 }
+
+.credit {
+	float: left;
+	text-align: left;
+	margin-top: 0;
+}
 </style>
 </head>
 <body>
-<script src="d3.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<div id="pymwrap-fl">
-<div class="wrapper">
-	<div class="description">
-			<p>According to the U.S. Department of Agriculture, this is how Florida counties rank for best scenery and climate. Hover over each county to see its rank.</p>
+<div id="embedfl">
+	<div class="wrapper">
+		<div class="description">
+				<p>According to the U.S. Department of Agriculture, this is how Florida counties rank for best scenery and climate. Hover over each county to see its rank.</p>
+		</div>
+		<div class="map-key">
+			<h3 style="text-align:center;">Florida county rankings</h3>
+			<div class="color-key"></div>
+			<table class="label-key">
+				<td><p>Least Amenities</p></td>
+				<td><p style="text-align:right">Most Amenities</p></td>
+			</table>
+		</div>
+		<div id="map"></div>
+		<div class="credit">
+			<p>Source: <a href="http://www.ers.usda.gov/data-products/natural-amenities-scale.aspx" target="_blank">U.S. Department of Agriculture</a></p>
+			<p>Aric Chokey | Times</p>
+		</div>	
 	</div>
-	<div class="map-key">
-		<h3 style="text-align:center;">Florida county rankings</h3>
-		<div class="color-key"></div>
-		<table class="label-key">
-			<td><p>Least Amenities</p></td>
-			<td><p style="text-align:right">Most Amenities</p></td>
-		</table>
-	</div>
-<div id="map">
 </div>
 <script>
 	var margin = {top: 10, left: 10, bottom: 10, right: 10},
@@ -141,19 +152,12 @@ td p {
     	.defer(d3.tsv, "fl.tsv", function(d) { rateById.set(d3.format(d)(d.id), +d.deviation);})
 	    .await(ready);
 
-	d3.tsv("fl.tsv", function(error, data) {
-		 console.log(data);
-	});
-
-
 	function ready(error, fl) {
 		if (error) throw error;
 		var tip = d3.tip()
 			.attr('class', 'd3-tip')
 			.offset([-10, 0])
 			.html(function(d) {
-				console.log(d);
-				// var match = 
 			return "<span>" +d.properties.COUNTY+ "</span> ranks <br /><span style='color:#50A291'>" +d.properties.rank+ "</span> out of 67 counties."
 			});
 
@@ -178,11 +182,5 @@ td p {
 
 	var pymChild = new pym.Child();
 </script>
-	<div class="credit" style="float:left; text-align:left; margin:0 15px 15px 15px;">
-		<p>Source: <a href="http://www.ers.usda.gov/data-products/natural-amenities-scale.aspx" target="_blank">U.S. Department of Agriculture</a></p>
-		<p>Aric Chokey | Times</p>
-	</div>
-</div>
-</div>
 </body>
 </html>
